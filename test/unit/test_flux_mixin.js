@@ -48,7 +48,7 @@ function createComponent(React, FluxMixin, FluxChildMixin) {
 }
 
 describe("FluxMixin", function() {
-  var React, TestUtils, FluxMixin, FluxChildMixin;
+  var React, ReactDOMServer, TestUtils, FluxMixin, FluxChildMixin;
   var Parent, Child, Grandchild, GreatGrandchild, flux, objs;
 
   beforeEach(function() {
@@ -59,8 +59,9 @@ describe("FluxMixin", function() {
     global.window = doc.defaultView;
     global.document = window.document;
     global.navigator = window.navigator;
-    React = require("react/addons");
-    TestUtils = React.addons.TestUtils;
+    React = require("react");
+    ReactDOMServer = require("react-dom/server");
+    TestUtils = require("react-addons-test-utils");
     FluxMixin = Fluxxor.FluxMixin(React);
     FluxChildMixin = Fluxxor.FluxChildMixin(React);
     objs = createComponent(React, FluxMixin, FluxChildMixin);
@@ -97,7 +98,7 @@ describe("FluxMixin", function() {
       render: function() { return React.DOM.div(); }
     }));
     expect(function() {
-      React.renderToString(Comp());
+      ReactDOMServer.renderToString(Comp());
     }).to.throw(/Could not find flux.*TestComponent/);
   });
 
@@ -107,7 +108,7 @@ describe("FluxMixin", function() {
         mixins: [Fluxxor.FluxMixin],
         render: function() { return React.DOM.div(); }
       });
-    }).to.throw(/attempting to use a component class as a mixin/);
+    }).to.throw(/use a component class or function as a mixin/);
   });
 
   it("gives a deprecation warning when using FluxChildMixin", function() {
@@ -125,7 +126,7 @@ describe("FluxMixin", function() {
       displayName: "CompName",
       render: function() { return React.DOM.div(); }
     }));
-    React.renderToString(Comp());
+    ReactDOMServer.renderToString(Comp());
     expect(warned).to.equal(true);
   });
 
@@ -135,6 +136,6 @@ describe("FluxMixin", function() {
         mixins: [Fluxxor.FluxChildMixin],
         render: function() { return React.DOM.div(); }
       });
-    }).to.throw(/attempting to use a component class as a mixin/);
+    }).to.throw(/use a component class or function as a mixin/);
   });
 });

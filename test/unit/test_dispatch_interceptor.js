@@ -48,7 +48,7 @@ var actions = {
 };
 
 describe("Dispatch interceptor", function() {
-  var React, TestUtils;
+  var React, ReactDOM, TestUtils;
   var flux, App, ComponentA, ComponentB;
 
   beforeEach(function() {
@@ -56,8 +56,9 @@ describe("Dispatch interceptor", function() {
     global.window = doc.defaultView;
     global.document = window.document;
     global.navigator = window.navigator;
-    React = require("react/addons");
-    TestUtils = React.addons.TestUtils;
+    React = require("react");
+    ReactDOM = require("react-dom");
+    TestUtils = require("react-addons-test-utils");
 
     flux = new Fluxxor.Flux({store: new Store()}, actions);
 
@@ -141,7 +142,7 @@ describe("Dispatch interceptor", function() {
   it("allows intercepting", function(done) {
     /* jshint expr:true */
     flux.setDispatchInterceptor(function(action, dispatch) {
-      React.addons.batchedUpdates(function() {
+      ReactDOM.unstable_batchedUpdates(function() {
         dispatch(action);
       });
     });
@@ -158,7 +159,7 @@ describe("Dispatch interceptor", function() {
     /* jshint expr:true */
     flux.setDispatchInterceptor(function(action, dispatch) {
       dispatches++;
-      React.addons.batchedUpdates(function() {
+      ReactDOM.unstable_batchedUpdates(function() {
         dispatch(action);
       });
     });
