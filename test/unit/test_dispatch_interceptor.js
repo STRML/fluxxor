@@ -124,7 +124,7 @@ describe("Dispatch interceptor", function() {
     delete global.document;
     delete global.navigator;
     for (var i in require.cache) {
-      if (require.cache.hasOwnProperty(i)) {
+      if (require.cache[i]) {
         delete require.cache[i]; // ugh react why
       }
     }

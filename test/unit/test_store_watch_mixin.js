@@ -15,7 +15,7 @@ describe("StoreWatchMixin", function() {
     global.document = window.document;
     global.navigator = window.navigator;
     for (var i in require.cache) {
-      if (require.cache.hasOwnProperty(i)) {
+      if (require.cache[i]) {
         delete require.cache[i];
       }
     }
