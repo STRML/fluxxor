@@ -4,3 +4,4 @@ test/
 site/
 script/
 fluxxor.svg
+yarn.lock
